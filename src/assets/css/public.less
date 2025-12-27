@@ -1,0 +1,481 @@
+.c-fff {
+  color: @c-fff;
+}
+
+.c-eda {
+  color: @primary-color;
+}
+
+.bg-ff {
+  background-color: @c-fff;
+}
+
+.bg-f7 {
+  background-color: @c-f7;
+}
+
+.bg-f5 {
+  background-color: @c-f5;
+}
+
+.container {
+  width: 1200px;
+  margin: 0 auto;
+
+  &.margin {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+}
+
+.margin0 {
+  margin: 0 !important;
+}
+
+.textLeft {
+  text-align: left;
+}
+
+.textCenter {
+  text-align: center;
+}
+
+.textRight {
+  text-align: right;
+}
+
+.fBlod {
+  font-weight: bold;
+}
+
+.f500 {
+  font-weight: 500;
+}
+
+.f600 {
+  font-weight: 600;
+}
+
+.f400 {
+  font-weight: 400;
+}
+
+.borderAll {
+  border: 1px solid #e8e8e8;
+}
+
+.borderTop {
+  border-top: 1px solid #e8e8e8;
+}
+
+.borderBottom {
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.borderLeft {
+  border-left: 1px solid #e8e8e8;
+}
+
+.borderRight {
+  border-right: 1px solid #e8e8e8;
+}
+
+.inline {
+  display: inline;
+}
+
+.inlineBlock {
+  display: inline-block;
+}
+
+.block {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
+.vMiddle {
+  vertical-align: middle;
+}
+
+.vBottom {
+  vertical-align: bottom;
+}
+
+.edit, a.edit {
+  cursor: pointer;
+  color: #4F5EDA;
+
+  &:hover {
+    color: #4F5EDA;
+  }
+}
+
+.editData {
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.85);
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.textHidden {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.oneLine {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+
+
+.flexBox {
+  display: flex;
+}
+
+.alignStart {
+  align-items: flex-start;
+}
+
+.flexcenterX {
+  justify-content: center;
+}
+
+.flexBetween {
+  justify-content: space-between;
+}
+
+.aiCenter {
+  align-items: center;
+}
+
+.aiContCenter{
+  align-content: center;
+}
+
+.flexWrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.flexItem {
+  flex: 1;
+}
+
+.flexWrap2 {
+  flex-wrap: wrap;
+}
+
+
+.hand {
+  cursor: pointer;
+}
+
+.generate-columns(100);
+
+.generate-columns (@n, @i: 1) when (@i =< @n) {
+  .pl@{i} {
+    padding-left: (@i) + 0px;
+  }
+
+  .pr@{i} {
+    padding-right: (@i) + 0px;
+  }
+
+  .pt@{i} {
+    padding-top: (@i) + 0px;
+  }
+
+  .pb@{i} {
+    padding-bottom: (@i) + 0px;
+  }
+
+  .pd@{i} {
+    padding: (@i) + 0px;
+  }
+
+  .mg@{i} {
+    margin: (@i) + 0px;
+  }
+
+  .ml@{i} {
+    margin-left: (@i) + 0px;
+  }
+
+  .mr@{i} {
+    margin-right: (@i) + 0px;
+  }
+
+  .mt@{i} {
+    margin-top: (@i) + 0px;
+  }
+
+  .mb@{i} {
+    margin-bottom: (@i) + 0px;
+  }
+
+  //移动端
+  .wpl@{i} {
+    padding-left: (@i / 7.5) + 0vw;
+  }
+
+  .wpr@{i} {
+    padding-right: (@i / 7.5) + 0vw;
+  }
+
+  .wpt@{i} {
+    padding-top: (@i / 7.5) + 0vw;
+  }
+
+  .wpb@{i} {
+    padding-bottom: (@i / 7.5) + 0vw;
+  }
+
+  .wpd@{i} {
+    padding: (@i / 7.5) + 0vw;
+  }
+
+  .wmg@{i} {
+    margin: (@i / 7.5) + 0vw;
+  }
+
+  .wml@{i} {
+    margin-left: (@i / 7.5) + 0vw;
+  }
+
+  .wmr@{i} {
+    margin-right: (@i / 7.5) + 0vw;
+  }
+
+  .wmt@{i} {
+    margin-top: (@i / 7.5) + 0vw;
+  }
+
+  .wmb@{i} {
+    margin-bottom: (@i / 7.5) + 0vw;
+  }
+
+  .generate-columns(@n, (@i + 1));
+}
+
+.font-size-cont(34);
+
+.font-size-cont (@n, @i: 12) when (@i =< @n) {
+  .fs@{i} {
+    font-size: (@i) + 0px;
+  }
+
+  .wfs@{i} {
+    font-size: (@i / 7.5) + 0vw;
+  }
+
+  .font-size-cont(@n, (@i + 2));
+}
+
+.btn-hover {
+  transition: opacity .3s;
+}
+
+.btn-hover:hover {
+  opacity: .8;
+}
+
+
+.searchBtns1, .searchBtns1.ant-btn {
+  height: 35px;
+  border-radius: 4px;
+  padding-left: 13px;
+  padding-right: 13px;
+  min-width: 90px;
+  &:not(:last-child) {
+    margin-right: 20px;
+  }
+}
+
+.searchBtns.ant-btn, .searchBtns {
+  background: none;
+  border: none;
+  color: @primary-color;
+  font-size: 14px;
+  box-shadow: none;
+  padding: 0;
+
+  &:not(:last-child) {
+    margin-right: 20px;
+  }
+
+  &:hover,
+  &:focus {
+    color: @primary-color !important;
+    background: none !important;
+    border-color: unset !important;
+  }
+}
+
+.searchBtns a,
+.searchBtns a:hover {
+  color: @primary-color;
+}
+.searchBtns.ant-btn.searchBtnDis {
+  color:#A0A0A0;
+  &:hover, &:focus {
+    color:#A0A0A0 !important;
+  }
+}
+
+
+// 内容区
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  padding: 5px 10px;
+  height: 100%;
+  // overflow: auto;
+}
+
+.tableWrap {
+  flex: 1;
+}
+
+
+// 弹窗滚动
+.ant-modal-body {
+  max-height: 75vh;
+  overflow-y: auto
+}
+
+
+//修改默认滚动条样式
+::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(239, 239, 239);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #bfbfbf;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
+
+::-webkit-scrollbar-corner {
+  background: #179a16;
+}
+
+
+
+.operationBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 32px;
+  flex-wrap: wrap;
+}
+
+
+// 必填label
+.label-required::before {
+  display: inline-block;
+  margin-right: 4px;
+  color: #ff4d4f;
+  font-size: 14px;
+  font-family: SimSun, sans-serif;
+  line-height: 1;
+  content: '*';
+}
+
+.meetingCode {
+  .copyImg {
+    display: none;
+  }
+
+  &:hover {
+    .copyImg {
+      display: block;
+    }
+  }
+}
+
+// 输入框展示字数去除边框
+.inputShowCount {
+  .ant-input {
+    border: none !important;
+  }
+}
+
+
+.breakAll {
+  word-break: break-all;
+}
+
+
+
+// 设配移动端
+@media screen and (max-width: 768px) {
+  .ant-modal {
+    width: calc(100% - 0px) !important;
+  }
+  //.full-modal {
+  //  top:64px !important;
+  //  left: 16px !important;
+  //  width: calc(100% - 0px) !important;
+  //
+  //}
+  //.full-modal .ant-modal-content {
+  //  height: calc(100vh - 64px) !important;
+  //}
+  //.full-modal .ant-modal-body {
+  //  max-height: 81vh;
+  //  padding: 15px 24px;
+  //}
+  .mobile {
+    display: block;
+  }
+  .pc {
+    display: none;
+  }
+  .operationBtn > div {
+    flex: 0 0 100%;
+  }
+  .edit {
+    margin-bottom: 15px;
+    margin-left: 10px;
+  }
+  .mobileBg {
+    .edit {
+      margin-bottom: 0;
+    }
+  }
+}
+@media screen and (min-width: 769px) {
+  .mobile {
+    display: none;
+  }
+  .pc {
+    display: block;
+  }
+}
+
+
+
+@media screen and (max-width: 768px) {
+  .reportBox {
+    min-width: 1200px;
+  }
+}
+
