@@ -1,0 +1,151 @@
+:root {
+  // 显示字数的input去掉边框
+  .ant-input-affix-wrapper .ant-input {
+    border: none!important;
+  }
+  // 修复一打开确认弹窗按钮颜色不对的问题
+  .ant-modal-confirm .ant-modal-confirm-btns .ant-btn-primary {
+    background:  #4F5EDA;
+    &:hover {
+      background: #7786e6;
+    }
+  }
+  // 表格无数据的时候显示'-'
+  .ant-table-cell:empty:after {
+    content: '-';
+  }
+
+  //气泡提示
+  .ant-popover {
+    z-index: 99999!important;
+  }
+
+  .ant-picker {
+    width: 100%;
+  }
+  // checkbox修改换货的时候左边距对不齐改成右边距
+  .ant-checkbox-wrapper + .ant-checkbox-wrapper {
+    margin-left: 0;
+    margin-right: 8px;
+  }
+  .ant-modal-body, .ant-modal-footer {
+    background: #fff;
+  }
+  // 列表变色
+  .table-striped {
+    background: #F5F6FF;
+    .ant-table-cell-fix-left, .ant-table-cell-fix-right {
+      background: #F5F6FF;
+    }
+  }
+  // Cascader和treeSelect组件一行显示，溢出隐藏
+  .ant-cascader-menu-item .ant-cascader-menu-item-content, .ant-select-tree-node-content-wrapper {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  // 修改Cascader默认高度 180px
+  // .ant-cascader-menu {
+  //   height: 100%;
+  // }
+  // 上传组件的样式
+  .ant-upload-picture-card-wrapper {
+    width: auto;
+  }
+  .ant-table-thead > tr > th {
+    color:#333;
+    font-weight: 500 !important;
+  }
+  .ant-input-number {
+    width: 100%;
+  }
+
+  /* 日期选择剧头部局中 */
+  .ant-picker-content th{
+    text-align: center;
+  }
+  .ant-form-item-label > label:not(.ant-form-item-required)::before {
+    display: inline-block;
+    margin-right: 4px;
+    width: 7px;
+    color: #ff4d4f;
+    font-size: 14px;
+    font-family: SimSun, sans-serif;
+    line-height: 1;
+    content: '';
+  }
+  .ant-form-item-label >label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+    display: inline-block;
+    margin-inline-end: 4px;
+    color: #ff4d4f;
+    font-size: 14px;
+    font-family: SimSun,sans-serif;
+    line-height: 1;
+    content: "*";
+  }
+  .ant-form-item-label>label {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    height: 32px;
+    color: #000000d9;
+    font-size: 14px;
+  }
+  .ant-form-item-label>label:after {
+    content: ":";
+    position: relative;
+    top: -.5px;
+    margin: 0 8px 0 2px;
+  }
+  .ant-form-item .ant-input-textarea-show-count::after {
+    margin-bottom: -22px;
+  }
+
+  // 搜索里面的input边框取消
+  .ant-input-search .ant-input {
+    border: none!important;
+  }
+
+
+  .ant-tabs-dropdown-menu-item {
+    padding: 10px 12px !important;
+  }
+
+  .ant-modal-confirm .ant-modal-body {
+    padding: 32px 32px 24px;
+  }
+  .ant-modal-confirm .ant-modal-confirm-btns {
+    margin-top: 24px;
+  }
+  .ant-modal-confirm .ant-modal-confirm-body .ant-modal-confirm-title {
+    font-weight: 500;
+  }
+  .ant-tree-select-dropdown .ant-select-tree-list-holder-inner {
+    align-items: stretch !important;
+  }
+
+  /* 修改滑动条轨道颜色 */
+  .custom-slider {
+    .ant-slider-track {
+      background-color: #4F5EDA !important;
+    }
+    /* 修改滑动条已选择部分的颜色 */
+    .ant-slider-handle {
+      border-color: #4F5EDA !important;
+    }
+    /* 修改滑动条手柄悬停时的颜色 */
+    .ant-slider-handle:hover {
+      border-color: #4F5EDA !important;
+    }
+    /* 修改滑动条手柄激活时的颜色 */
+    .ant-slider-handle:active {
+      border-color: #4F5EDA !important;
+      box-shadow: 0 0 0 5px #4F5EDA;
+    }
+  }
+  // 隐藏图片预览眼睛图标
+  //.ant-image-mask-info {
+  //  display: none;
+  //}
+}

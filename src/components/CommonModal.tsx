@@ -24,7 +24,7 @@ export default defineComponent({
       default:undefined
     },
   },
-  setup(props, {emit}) {
+  setup() {
     return {
     }
   },
