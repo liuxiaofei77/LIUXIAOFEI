@@ -3,7 +3,7 @@
  * @Description: 创建表单
  */
 import {defineComponent, ref, reactive, computed} from 'vue'
-import {Row, Col, Input, Select, Form,  DatePicker, ConfigProvider} from 'ant-design-vue'
+import {Row, Col, Input, Select, Form,  DatePicker, ConfigProvider, Switch } from 'ant-design-vue'
 import styles from './css/Form.module.less'
 import dayjs from 'dayjs'
 import zhCN from "ant-design-vue/lib/locale/zh_CN"
@@ -73,7 +73,10 @@ export default defineComponent({
       }
     }
 
-
+    // 状态切换
+    const switchChange = (val, item) => {
+      formData[item.prop] = val
+    }
 
     const inputValueNum = (val) => {
       currentSize.value = val
@@ -90,12 +93,13 @@ export default defineComponent({
       filterOption,
       selectChange,
       inputValueNum,
+      switchChange
     }
   },
   render(props: any) {
     const { RangePicker } = DatePicker
     const { formAttr, rules, custom } = props
-    const { formSetArray, formData, filterOption, selectChange, inputValueNum, currentSize } = this
+    const { formSetArray, formData, filterOption, selectChange, inputValueNum, currentSize, switchChange } = this
 
     return(
       <Form
@@ -117,10 +121,16 @@ export default defineComponent({
                     >
                       {
                         item.type === 'input' && (
-                          item.trim?<Input v-model={[formData[item.prop], 'value', ['trim']]} {...item.attrs} placeholder={item.placeholder || `请输入${item.label}`} v-slots={item.slots} />:<Input v-model={[formData[item.prop], 'value', currentSize]} {...item.attrs} placeholder={item.placeholder || `请输入${item.label}`} onChange={e => inputValueNum(e.target.value?.length) }  v-slots={item.slots} />
+                          <Input v-model={[formData[item.prop], 'value', currentSize]} {...item.attrs} placeholder={item.placeholder || `请输入${item.label}`} onChange={e => inputValueNum(e.target.value?.length) }  v-slots={item.slots} />
                         ) || item.type === 'textarea' && (
                           <Input.TextArea v-model={[formData[item.prop], 'value']}  {...item.attrs} placeholder={item.placeholder || `请输入${item.label}`}/>
-                        )  || item.type === 'select' && (
+                        )  || item.type === 'switch' && (
+                          <Switch
+                            v-model={[formData[item.prop], 'checked']}
+                            {...item.attrs}
+                            onChange={(e) => switchChange(e, item)}
+                          />
+                        ) || item.type === 'select' && (
                           <Select
                             v-model={[formData[item.prop], 'value']}
                             showSearch

@@ -42,6 +42,12 @@ export default defineComponent({
         options:[{value:1, label:1}, {value:2, label:2}, {value:3, label:3}]
       },
       {
+        label: '完成状态',
+        prop: 'status',
+        col: '24',
+        type: 'switch'
+      },
+      {
         label: '完成时间',
         prop: 'taskTime',
         col: '24',

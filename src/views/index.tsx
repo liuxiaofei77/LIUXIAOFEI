@@ -8,7 +8,8 @@ import { Row,
   Tabs,
   Modal,
   Tooltip,
-  Tag
+  Tag,
+  Switch
 } from 'ant-design-vue'
 import styles from '../assets/css/index.less'
 import dayjs from "dayjs"
@@ -38,6 +39,7 @@ export default defineComponent({
             level: 1,
             startTime: 1764518400,
             endTime: 1767196799,
+            status:0,
             remark: 'demoresfafasffsffsfsfsfmark',
           }, {
               id:2,
@@ -45,6 +47,7 @@ export default defineComponent({
               level: 1,
               startTime: 1764518400,
               endTime: 1767196799,
+              status:0,
               remark: 'demoresfafasffsffsfsfsfmark',
             },{
               id:3,
@@ -52,6 +55,7 @@ export default defineComponent({
               level: 2,
               startTime: 1764518400,
               endTime: 1767196799,
+              status:0,
               remark: 'demoresfafasffsffsfsfsfmark',
             },]},
         {title: '生活', list:[]},
@@ -86,6 +90,18 @@ export default defineComponent({
               { dayjs(value.startTime * 1000).format('YYYY-MM-DD HH:mm:ss') } - {  dayjs(value.endTime * 1000).format('YYYY-MM-DD HH:mm:ss')}
             </div> </Tooltip>
         }
+      },
+      {
+        title: '完成状态',
+        align: 'center',
+        dataIndex: 'status',
+        width: 150,
+        customRender: ({ status }) => (
+          <Switch
+            disabled={true}
+            checked={Boolean(status)}
+          />
+        )
       },
       { title: '备注', align: 'center', dataIndex: 'remark', width: 200,
         customRender: ({value}: any) => (
