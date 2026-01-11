@@ -1,15 +1,7 @@
 import { defineComponent, reactive, ref  } from 'vue'
-import { Row,
-  Col,
-  Input,
-  RangePicker,
-  ConfigProvider,
-  Button,
-  Tabs,
-  Modal,
-  Tooltip,
-  Tag,
-  Switch
+import {
+  Row, Col, Input, RangePicker, ConfigProvider,
+  Button, Tabs, Modal, Tooltip, Tag, Switch, message
 } from 'ant-design-vue'
 import styles from '../assets/css/index.less'
 import dayjs from "dayjs"
@@ -17,19 +9,24 @@ import zhCN from 'ant-design-vue/lib/locale/zh_CN'
 import { ExclamationCircleFilled } from '@ant-design/icons-vue'
 import EditModel from './components/EditModel'
 import NewTab from "@/views/components/NewTab"
+import BarEchart from "./components/BarEchart"
+import PieEchart from "./components/PieEchart"
 
 export default defineComponent({
   setup() {
     const searchDate = ref({
-      name: [],
-      taskTime: '',
+      name: '',
+      taskTime: [],
     })
     const curTab = ref(1)
+    const searchList = ref([]) //搜索结果
     const otherData = reactive({
       time: new Date().getTime().toString(),
       curItem:{},
       showEdit:false,
-      showTab:false
+      showTab:false,
+      showsearch:false,
+      showPie:true
     })
     const tabList = ref(localStorage.getItem('tabList') ? JSON.parse(localStorage.getItem('tabList')) :
       [
@@ -39,7 +36,7 @@ export default defineComponent({
             level: 1,
             startTime: 1764518400,
             endTime: 1767196799,
-            status:0,
+            status:false,
             remark: 'demoresfafasffsffsfsfsfmark',
           }, {
               id:2,
@@ -47,7 +44,7 @@ export default defineComponent({
               level: 1,
               startTime: 1764518400,
               endTime: 1767196799,
-              status:0,
+              status:false,
               remark: 'demoresfafasffsffsfsfsfmark',
             },{
               id:3,
@@ -55,7 +52,7 @@ export default defineComponent({
               level: 2,
               startTime: 1764518400,
               endTime: 1767196799,
-              status:0,
+              status:false,
               remark: 'demoresfafasffsffsfsfsfmark',
             },]},
         {title: '生活', list:[]},
@@ -92,14 +89,13 @@ export default defineComponent({
         }
       },
       {
-        title: '完成状态',
+        title: '是否完成',
         align: 'center',
-        dataIndex: 'status',
         width: 150,
-        customRender: ({ status }) => (
+        customRender: ({ value }) => (
           <Switch
-            disabled={true}
-            checked={Boolean(status)}
+            checked={Boolean(value.status)}
+            onChange={(e) => changeStatus(e, value)}
           />
         )
       },
@@ -132,7 +128,7 @@ export default defineComponent({
       otherData[type] = true
     }
     // 处理弹窗
-    const setModelFn = (type: string, flag = true, data={}) => {
+    const setModelFn = (type: string, flag = false, data={}) => {
       otherData[type] = false
       otherData.curItem = data
       if (flag) {
@@ -153,16 +149,45 @@ export default defineComponent({
       }
     }
     const rangePickerChange = (e:any)=>{
-      console.log(e, 99)
       if (!e) {
-        searchData.value.date = []
+        searchDate.value.taskTime = []
       }
     }
     const getListHand = () => {
+      // 1. 解构赋值+语义化命名，减少重复访问，提升可读性
+      const { name: searchName, taskTime: searchTaskTime } = searchDate.value
+      // 2. 空值保护：避免curTab越界、list不存在导致报错，兜底空数组
+      const currentTabList = tabList.value[curTab.value - 1]?.list || []
+      let targetList = []
 
+      // 3. 提取搜索条件，简化后续判断（提前处理模糊搜索和时间数组有效性）
+      const hasName = !!searchName?.trim() // 排除空字符串、全空格的无效名称
+      const hasValidTaskTime = Array.isArray(searchTaskTime) && searchTaskTime.length === 2
+
+      // 4. 整合过滤逻辑，避免多分支重复调用filter，逻辑更清晰
+      if (hasName || hasValidTaskTime) {
+        targetList = currentTabList.filter((item) => {
+          // 条件1：名称模糊匹配（无效名称时直接通过）
+          const nameMatch = !hasName || item.name?.includes(searchName.trim())
+          // 条件2：时间范围匹配（无效时间时直接通过）
+          const timeMatch = !hasValidTaskTime ? true : (item.startTime <= searchTaskTime[0] && item.endTime >= searchTaskTime[1])
+
+          // 组合条件：“且”逻辑（与你的原分支逻辑一致）
+          return nameMatch && timeMatch
+        })
+
+        otherData.showsearch = true
+      } else {
+        // 无有效搜索条件时的处理
+        otherData.showsearch = false
+      }
+
+      // 5. 统一赋值并返回结果，避免重复赋值
+      searchList.value = targetList
+      return targetList
     }
     const onEdit = (targetKey: string | MouseEvent, action: string) => {
-      console.log(targetKey, action)
+      // console.log(targetKey, action)
       if(action==='remove'){
         Modal.confirm(
           {
@@ -200,8 +225,21 @@ export default defineComponent({
         }
       )
     }
+    const changeStatus = (e, item) => {
+      const data = {
+        ...item,
+        status:e
+      }
+      setModelFn('showEdit', true, data)
+      return e ? message.success('恭喜你已完成任务') : message.error('未完成任务')
+    }
     const onchange = (e) => {
+      console.log(e)
+      otherData.showPie=false
       curTab.value=e
+      setTimeout(()=>{
+        otherData.showPie=true
+      }, 1000)
     }
     return {
       searchDate,
@@ -215,13 +253,14 @@ export default defineComponent({
       columns,
       setModelFn,
       handleReply,
+      searchList
     }
   },
   render () {
     const {otherData, searchDate, rangePickerChange, getListHand, curTab, onchange,
-      tabList, onEdit, columns, setModelFn, handleReply,
+      tabList, onEdit, columns, setModelFn, handleReply, searchList
     } = this
-    console.log(tabList, 77)
+    // console.log(tabList, 77)
     return (
       <div id={otherData.time as string} class={`${styles.container} page`}>
         <div class="bg-f9">
@@ -262,13 +301,12 @@ export default defineComponent({
                     return (<Tabs.TabPane tab={item.title} key={index+1} closable>
                       <div>
                         <div class={'mb10'}>
-                          <Button type="primary" class={`${styles.btn}`} onClick={()=>handleReply({}, 'showEdit')}>新增事项</Button>
+                          <Button type="primary" class={`${styles.btn}`} onClick={()=>handleReply({}, 'showEdit')}>新增任务</Button>
                         </div>
                         <div class="tableWrap mt20">
                           <common-table
                             columns={columns}
-                            data={item.list}
-                            attr={{bordered: 'bordered'}}
+                            data={!otherData.showsearch?item.list:searchList}
                             rowKey="id"
                             pagination={false}
                             loading={otherData.loading}
@@ -281,6 +319,16 @@ export default defineComponent({
               </Tabs>
 
             </div>
+            <Row gutter={[10, 10]}>
+              <Col xs={{span:24}} md={{span:12}}>
+                <div class={'mt20 ml10'}>分类比</div>
+                <BarEchart />
+              </Col>
+              <Col xs={{span:24}} md={{span:12}}>
+                <div class={'mt20 ml10'}>{tabList[curTab-1].title}-完成比</div>
+                {otherData.showPie&&<PieEchart curItem={{id:curTab, orderData:[...tabList[curTab-1].list], title:tabList[curTab-1].title}} />}
+              </Col>
+            </Row>
           </div>
           {otherData.showEdit && <EditModel isModalVisible={otherData.showEdit} curItem={{ ...otherData.curItem, time: otherData.time }} onSetModelFn={setModelFn} />}
           {otherData.showTab && <NewTab isModalVisible={otherData.showTab} curItem={{ ...otherData.curItem, time: otherData.time }} onSetModelFn={setModelFn} />}
