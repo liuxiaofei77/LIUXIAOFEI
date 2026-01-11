@@ -3,7 +3,7 @@
  * @Description: 饼状图
  */
 import { defineComponent, onMounted } from 'vue'
-import '../../../public/static/echarts.min.js'
+// import '../../../public/static/echarts.min.js'
 export default defineComponent({
   props: {
     curItem: {

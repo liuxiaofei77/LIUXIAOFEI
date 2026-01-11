@@ -7,6 +7,7 @@ import 'dayjs/locale/zh-cn'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import CommonModal from '@/components/CommonModal'
 import Table from '@/components/CommonTable'
+import '@/assets/css/index.less'
 
 const app = createApp(App)
 app.component('CommonModal', CommonModal)

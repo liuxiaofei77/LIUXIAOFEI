@@ -3,16 +3,24 @@
  * @Description: 柱壮图
  */
 import {defineComponent, onMounted} from 'vue'
-import '../../../public/static/echarts.min.js'
+// import '../../../public/static/echarts.min.js'
 
 export default defineComponent({
-
-  setup() {
+  props: {
+    curItem: {
+      type: Object,
+      required: true,
+      default: () => {
+        return {}
+      }
+    }
+  },
+  setup(props) {
     // 初始化 echarts
     const domaininitEchart = ()=>{
       const myChart= window.echarts.init(document.getElementById('barchart') as HTMLElement)
-      const xlist = JSON.parse(localStorage.getItem('tabList')).map(item=> item.title)||[]
-      const ylist = JSON.parse(localStorage.getItem('tabList')).map(item=>item.list.length)||[]
+      const xlist = props.curItem.tabList.map(item=> item.title)||[]
+      const ylist = props.curItem.tabList.map(item=>item.list.length)||[]
       const option = {
         tooltip: {
           trigger: 'axis',
