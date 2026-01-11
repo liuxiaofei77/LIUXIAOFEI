@@ -28,7 +28,7 @@ export default defineComponent({
       showPie:true
     })
     const tabList = ref(localStorage.getItem('tabList') ? JSON.parse(localStorage.getItem('tabList')) :
-      [{"title":"工作","key":1,"list":[{"id":2,"name":"demo","level":1,"startTime":1764518400,"endTime":1767196799,"remark":"demoresfafasffsffsfsfsfmark","status":false},{"id":3,"name":"demsso","level":2,"startTime":1764518400,"endTime":1767196799,"remark":"demoresfafasffsffsfsfsfmark","time":"1768036775958","status":true},{"id":"1766916518224","time":"1766916773375","name":"对接","level":3,"remark":"对接同事","startTime":"1764604800","endTime":"1766851199","status":true},{"time":"1766916773375","name":"项目1","level":1,"remark":"完成项目1跟踪","id":"1766916857504","startTime":"1762444800","endTime":"1768060799"},{"time":"1766928270484","name":"项目2","level":2,"id":"1766928495586","startTime":"1764691200","endTime":"1766213635"},{"time":"1768039289888","name":"付大夫","level":2,"id":"1768039323875","startTime":"1767196800","endTime":"1767974399"}]},{"title":"生活","key":2,"list":[{"time":"1766916773375","name":"刷牙","level":1,"id":"1766916910118","startTime":"1766937600","endTime":"1766969999"},{"time":"1766916773375","name":"洗脸","level":2,"id":"1766916940994","startTime":"1766937600","endTime":"1766973599"}]},{"title":"学习","list":[]},{"title":"的哦莫demo","list":[]}]
+      [{"title":"工作","key":1,"list":[{"id":2,"name":"demo","level":1,"startTime":1764518400,"endTime":1767196799,"remark":"demoresfafasffsffsfsfsfmark","status":false},{"time":"1768123423324","name":"项目1","level":3,"remark":"完成项目1跟踪","id":"1766916857504","startTime":"1762444800","endTime":"1768060799","status":true},{"time":"1766928270484","name":"项目2","level":2,"id":"1766928495586","startTime":"1764691200","endTime":"1766213635"}]},{"title":"生活","key":2,"list":[{"time":"1766916773375","name":"刷牙","level":1,"id":"1766916910118","startTime":"1766937600","endTime":"1766969999"},{"time":"1766916773375","name":"洗脸","level":2,"id":"1766916940994","startTime":"1766937600","endTime":"1766973599"}]},{"title":"学习","list":[{"time":"1768123423324","name":"数学","level":1,"remark":"数学作业","id":"1768123711147","startTime":"1767196800","endTime":"1769788799","status":true},{"time":"1768123423324","name":"语文","level":2,"status":false,"remark":"学习语文","id":"1768123744820","startTime":"1767196800","endTime":"1801411199"}]},{"title":"娱乐","list":[{"time":"1768123423324","name":"甄嬛传","level":3,"remark":"第3集","id":"1768123781374","startTime":"1767283200","endTime":"1768665599"}]}]
     )
     const columns = ref([
       { title: '任务名称', align: 'center', width: 200, dataIndex: 'name',},
@@ -176,7 +176,6 @@ export default defineComponent({
               onOk: () => {
                 tabList.value.splice(targetKey-1, 1)
                 localStorage.setItem('tabList', JSON.stringify(tabList.value))
-                console.log(tabList.value)
               },
               onCancel() {},
             }
