@@ -6,7 +6,6 @@
 html, body {
   height: 100%;
   font-size: 14px;
-  overflow: hidden;
 }
 
 body {
@@ -103,11 +102,14 @@ p{
 .container {
   max-width: 1200px;
   width: 100%;
-  margin: 30px auto;
+  margin: 0 auto;
   border: 1px solid #c9c9c9;
   border-radius: 5px;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 8px 1px rgba(51, 51, 51, 0.2);
+}
+.containerbox{
+  padding: 10px 30px 20px 30px;
 }
 .edit{
   color:#4F5EDA;
@@ -315,30 +317,25 @@ p{
 
 // 设配移动端
 @media screen and (max-width: 768px) {
+  .container{
+    border: none;
+    box-shadow: none;
+    margin-top: -20px;
+    overflow: scroll;
+    height: 100%;
+  }
+  .containerbox{
+     padding: 0px 20px;
+  }
   .ant-modal {
     width: calc(100% - 0px) !important;
   }
-  .full-modal {
-    top:64px !important;
-    left: 16px !important;
-    width: calc(100% - 0px) !important;
 
-  }
-  .full-modal .ant-modal-content {
-    height: calc(100vh - 64px) !important;
-  }
-  .full-modal .ant-modal-body {
-    max-height: 81vh;
-    padding: 15px 24px;
-  }
   .mobile {
     display: block;
   }
   .pc {
     display: none;
-  }
-  .operationBtn > div {
-    flex: 0 0 100%;
   }
 
 }
@@ -352,10 +349,4 @@ p{
 }
 
 
-
-@media screen and (max-width: 768px) {
-  .reportBox {
-    min-width: 1200px;
-  }
-}
 

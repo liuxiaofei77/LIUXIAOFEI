@@ -239,9 +239,9 @@ export default defineComponent({
     } = this
     // console.log(tabList, 77)
     return (
-      <div id={otherData.time as string} class={`page`}>
-        <div class="bg-f9">
-          <div class="container pt10 pb20 pl30 pr30">
+      <div id={otherData.time as string} class={`pt30`}>
+        <div class="bg-f9 container">
+          <div class="containerbox">
             <div>
               <Row align="middle" gutter={40}>
                 <Col sm={24} md={6} class={'mt10'}>
@@ -271,7 +271,7 @@ export default defineComponent({
                   <Button type="primary"  onClick={getListHand}>查询</Button>
                 </Col>
               </Row>
-              <Tabs activeKey={curTab} type="editable-card" class={'mt20'}
+              <Tabs activeKey={curTab} type="editable-card" class={'mt15'}
                     onChange={(e) => onchange(e as number)}
                     onEdit={onEdit}>
                   {tabList.map((item, index) => {
@@ -280,7 +280,7 @@ export default defineComponent({
                         <div class={'mb10'}>
                           <Button type="primary"  onClick={()=>handleReply({}, 'showEdit')}>新增任务</Button>
                         </div>
-                        <div class="tableWrap mt20">
+                        <div class="tableWrap mt10">
                           <common-table
                             columns={columns}
                             data={!otherData.showsearch?item.list:searchList}
