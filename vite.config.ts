@@ -7,7 +7,6 @@ import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import {resolve} from "path"
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
@@ -32,7 +31,7 @@ export default defineConfig({
     alias: {
       '@': resolve(__dirname, 'src')
     },
-    extensions: ['.ts', '.tsx', '.js', '.jsx', '.vue'], // 支持 TSX 后缀
+    extensions: ['.ts', '.tsx', '.js', '.vue'], // 支持 TSX 后缀
   },
   build: {
     // 输出目录（默认 dist，可自定义）
@@ -45,13 +44,6 @@ export default defineConfig({
     // 拆分代码（减小单文件体积）
     rollupOptions: {
       output: {
-        // 按模块拆分 chunk
-        // manualChunks: {
-        //   // 将 AntD 单独拆分为一个 chunk
-        //   antd: ['ant-design-vue'],
-        //   // 将 Vue 相关单独拆分
-        //   vue: ['vue', 'vue-router']
-        // },
         // 静态资源哈希命名规则（避免缓存）
         entryFileNames: 'assets/[name].[hash].js',
         chunkFileNames: 'assets/[name].[hash].js',

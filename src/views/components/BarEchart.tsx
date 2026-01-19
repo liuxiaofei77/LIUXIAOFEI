@@ -3,7 +3,6 @@
  * @Description: 柱壮图
  */
 import {defineComponent, onMounted} from 'vue'
-// import '../../../public/static/echarts.min.js'
 
 export default defineComponent({
   props: {

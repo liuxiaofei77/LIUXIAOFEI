@@ -45,8 +45,6 @@ export default defineComponent({
           },
         ],
       }
-
-
       option && myChart.setOption(option)
     }
 

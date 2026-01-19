@@ -85,7 +85,7 @@ export default defineComponent({
         className:'smallHandleTd',
         customRender: ({ value }) => {
           return (
-            <div class="flexBox flexcenterX flexWrap2">
+            <div class="flexBox flexcenterX">
               <span class={`edit mr10`} onClick={() => handleReply(value, 'showEdit')}>编辑</span>
               <span class={`edit`} onClick={() => deleteComfirm(value)}>删除</span>
             </div>
