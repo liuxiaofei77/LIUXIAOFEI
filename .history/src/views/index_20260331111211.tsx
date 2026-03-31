@@ -30,7 +30,25 @@ export default defineComponent({
       loading: true,
     })
     const tabList = ref<TabItem[]>([])
-     
+    /*
+      [{"title":"工作","key":1,"list":[
+          {"id":2,"name":"demo","level":1,"startTime":1764518400,"endTime":1767196799,"remark":"demoresfafasffsffsfsfsfmark","status":false},
+          {"time":"1768123423324","name":"项目1","level":3,"remark":"完成项目1跟踪","id":"1766916857504","startTime":"1762444800","endTime":"1768060799","status":true},
+          {"time":"1766928270484","name":"项目2","level":2,"id":"1766928495586","startTime":"1764691200","endTime":"1766213635"}
+        ]},
+        {"title":"生活","key":2,"list":[
+          {"time":"1766916773375","name":"刷牙","level":1,"id":"1766916910118","startTime":"1766937600","endTime":"1766969999"},
+            {"time":"1766916773375","name":"洗脸","level":2,"id":"1766916940994","startTime":"1766937600","endTime":"1766973599"}
+        ]},
+        {"title":"学习","list":[
+          {"time":"1768123423324","name":"数学","level":1,"remark":"数学作业","id":"1768123711147","startTime":"1767196800","endTime":"1769788799","status":true},
+          {"time":"1768123423324","name":"语文","level":2,"status":false,"remark":"学习语文","id":"1768123744820","startTime":"1767196800","endTime":"1801411199"}
+        ]},
+        {"title":"娱乐","list":[
+          {"time":"1768123423324","name":"甄嬛传","level":3,"remark":"第3集","id":"1768123781374","startTime":"1767283200","endTime":"1768665599"}
+        ]}
+      ]
+    */
 
     const refreshCharts = () => {
       otherData.showPie = false
@@ -128,7 +146,140 @@ export default defineComponent({
         }
       },
     ])
-    
+    // 处理弹窗显示
+    /*
+    const legacyHandleReply = (value: any, type: string) => {
+      otherData.curItem = value
+      otherData[type] = true
+    }
+    // 处理弹窗
+    const legacySetModelFn = (type: string, flag = false, data={}) => {
+      otherData[type] = false
+      otherData.curItem = data
+      if (flag) {
+        //更新
+        if (type === 'showEdit'){
+          otherData.showPie=false
+          const arr = tabList.value[curTab.value - 1].list
+          const targetIndex = arr.findIndex(item => item.id === data.id)
+          if (targetIndex !== -1) {
+            tabList.value[curTab.value - 1].list[targetIndex] = {...data}
+          } else {
+            tabList.value[curTab.value - 1].list.push({...data})
+          }
+          localStorage.setItem('tabList', JSON.stringify(tabList.value))
+          setTimeout(()=>{
+            otherData.showPie=true
+          }, 1000)
+        }else if(type === 'showTab'){
+          const targetIndex = tabList.value.findIndex(item => item.title === data.title)
+          if (targetIndex !== -1) {
+            message.error('已有相同名字的任务分类表')
+          }else{
+            otherData.showPie=false
+            tabList.value.push({title: data.title, list:[]})
+            localStorage.setItem('tabList', JSON.stringify(tabList.value))
+            setTimeout(()=>{
+              otherData.showPie=true
+            }, 1000)
+          }
+        }
+      }
+    }
+    const legacyRangePickerChange = (e:any)=>{
+      if (!e) {
+        searchDate.value.taskTime = []
+      }
+    }
+    const legacyGetListHand = () => {
+      // 1. 解构赋值+语义化命名，减少重复访问，提升可读性
+      const { name: searchName, taskTime: searchTaskTime } = searchDate.value
+      // 2. 空值保护：避免curTab越界、list不存在导致报错，兜底空数组
+      const currentTabList = tabList.value[curTab.value - 1]?.list || []
+      let targetList = []
+      // 3. 提取搜索条件，简化后续判断（提前处理模糊搜索和时间数组有效性）
+      const hasName = !!searchName?.trim() // 排除空字符串、全空格的无效名称
+      const hasValidTaskTime = Array.isArray(searchTaskTime) && searchTaskTime.length === 2
+      // 4. 整合过滤逻辑，避免多分支重复调用filter，逻辑更清晰
+      if (hasName || hasValidTaskTime) {
+        targetList = currentTabList.filter((item) => {
+          // 条件1：名称模糊匹配（无效名称时直接通过）
+          const nameMatch = !hasName || item.name?.includes(searchName.trim())
+          // 条件2：时间范围匹配（无效时间时直接通过）
+          const timeMatch = !hasValidTaskTime ? true : (item.startTime <= searchTaskTime[0] && item.endTime >= searchTaskTime[1])
+          // 组合条件：“且”逻辑（与你的原分支逻辑一致）
+          return nameMatch && timeMatch
+        })
+        otherData.showsearch = true
+      } else {
+        // 无有效搜索条件时的处理
+        otherData.showsearch = false
+      }
+      // 5. 统一赋值并返回结果，避免重复赋值
+      searchList.value = targetList
+      return targetList
+    }
+    const legacyOnEdit = (targetKey: string | MouseEvent, action: string) => {
+      // console.log(targetKey, action)
+      if(action==='remove'){
+          Modal.confirm(
+            {
+              title: '删除',
+              icon: <ExclamationCircleFilled />,
+              content: '是否确认删除整个任务表',
+              onOk: () => {
+                otherData.showPie=false
+                tabList.value.splice(targetKey-1, 1)
+                localStorage.setItem('tabList', JSON.stringify(tabList.value))
+                curTab.value=1
+                setTimeout(()=>{
+                  otherData.showPie=true
+                }, 1000)
+              },
+              onCancel() {},
+            }
+          )
+      }else{
+        handleReply({}, 'showTab')
+      }
+
+    }
+    const legacyDeleteComfirm = (data) => {
+      Modal.confirm(
+        {
+          title: '删除',
+          icon: <ExclamationCircleFilled />,
+          content: '是否确认删除这个任务',
+          onOk: () => {
+            const arr = tabList.value[curTab.value-1].list
+            const targetIndex = arr.findIndex(item => item.id === data.id)
+            if (targetIndex !== -1) {
+              tabList.value[curTab.value-1].list.splice(targetIndex, 1)
+            }
+            localStorage.setItem('tabList', JSON.stringify(tabList.value))
+          },
+          onCancel() {},
+        }
+      )
+    }
+    const legacyChangeStatus = (e, item) => {
+      const data = {
+        ...item,
+        status:e
+      }
+      setModelFn('showEdit', true, data)
+      return e ? message.success('恭喜你已完成任务') : message.error('未完成任务')
+    }
+    const legacyOnchange = (e) => {
+      otherData.showPie=false
+      curTab.value=e
+      setTimeout(()=>{
+        otherData.showPie=true
+      }, 1000)
+    }
+
+    */
+
     const handleReply = (value: any, type: string) => {
       const state = otherData as Record<string, any>
       otherData.curItem = value
@@ -167,15 +318,16 @@ export default defineComponent({
 
       if (type === 'showTab') {
         const targetIndex = tabList.value.findIndex((item) => item.title === data.title)
+
         if (targetIndex !== -1) {
           message.error('已有相同名字的任务分类表')
           return
         }
+
         otherData.showPie = false
         tabList.value.push({ title: data.title, list: [] })
         await persistTabList()
         refreshCharts()
-        message.success('新增成功')
       }
     }
 
@@ -199,6 +351,7 @@ export default defineComponent({
             ? true
             : Number(item.startTime) <= Number(searchTaskTime[0]) &&
               Number(item.endTime) >= Number(searchTaskTime[1])
+
           return nameMatch && timeMatch
         })
 

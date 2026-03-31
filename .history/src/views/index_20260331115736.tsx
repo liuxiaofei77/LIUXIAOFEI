@@ -167,10 +167,12 @@ export default defineComponent({
 
       if (type === 'showTab') {
         const targetIndex = tabList.value.findIndex((item) => item.title === data.title)
+
         if (targetIndex !== -1) {
           message.error('已有相同名字的任务分类表')
           return
         }
+
         otherData.showPie = false
         tabList.value.push({ title: data.title, list: [] })
         await persistTabList()
@@ -199,6 +201,7 @@ export default defineComponent({
             ? true
             : Number(item.startTime) <= Number(searchTaskTime[0]) &&
               Number(item.endTime) >= Number(searchTaskTime[1])
+
           return nameMatch && timeMatch
         })
 

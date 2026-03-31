@@ -38,7 +38,6 @@ export default defineConfig({
     outDir: 'dist',
     // 静态资源目录（默认 assets）
     assetsDir: 'assets',
-
     // 代码压缩
     minify: 'esbuild', // Vite 默认，比 terser 更快
     // 拆分代码（减小单文件体积）

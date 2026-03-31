@@ -199,6 +199,7 @@ export default defineComponent({
             ? true
             : Number(item.startTime) <= Number(searchTaskTime[0]) &&
               Number(item.endTime) >= Number(searchTaskTime[1])
+
           return nameMatch && timeMatch
         })
 

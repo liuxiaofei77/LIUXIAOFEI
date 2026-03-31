@@ -12,8 +12,9 @@
     "@microsoft/fetch-event-source": "^2.0.1",
     "@types/node": "^14.14.31",
     "ant-design-vue": "^4.2.6",
-    "importmap-plugin": "^0.8.0",
     "dayjs": "^1.11.5",
+    "dexie": "^3.2.5",
+    "importmap-plugin": "^0.8.0",
     "less": "^4.1.0",
     "vue": "^3.0.5",
     "vue-router": "^4.0.12"

@@ -36,9 +36,6 @@ export default defineComponent({
     const ruleForm = ref<any>(null)
     const formData  = reactive(props.defaultData)
     const currentSize = ref()
-    // const momentTime = (time:string, format:string) => {
-    //   return moment(time, format)
-    // }
 
     // select的搜索
     const filterOption = (input: string, option: any) => {
@@ -88,7 +85,6 @@ export default defineComponent({
       formData,
       currentSize,
       onFinish,
-      // momentTime,
       getFromValue,
       filterOption,
       selectChange,
@@ -121,9 +117,17 @@ export default defineComponent({
                     >
                       {
                         item.type === 'input' && (
-                          <Input v-model={[formData[item.prop], 'value', currentSize]} {...item.attrs} placeholder={item.placeholder || `请输入${item.label}`} onChange={e => inputValueNum(e.target.value?.length) }  v-slots={item.slots} />
+                          <Input
+                            v-model={[formData[item.prop], 'value', currentSize]}
+                            {...item.attrs}
+                            placeholder={item.placeholder || `请输入${item.label}`}
+                            onChange={e => inputValueNum(e.target.value?.length) }
+                            v-slots={item.slots}
+                          />
                         ) || item.type === 'textarea' && (
-                          <Input.TextArea v-model={[formData[item.prop], 'value']}  {...item.attrs} placeholder={item.placeholder || `请输入${item.label}`}/>
+                          <Input.TextArea
+                            v-model={[formData[item.prop], 'value']}
+                            {...item.attrs} placeholder={item.placeholder || `请输入${item.label}`}/>
                         )  || item.type === 'switch' && (
                           <Switch
                             v-model={[formData[item.prop], 'checked']}

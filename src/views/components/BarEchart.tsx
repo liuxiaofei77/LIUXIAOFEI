@@ -45,7 +45,6 @@ export default defineComponent({
               color: '#333',
             },
           },
-
           splitLine: {
             show: true,
             lineStyle: {

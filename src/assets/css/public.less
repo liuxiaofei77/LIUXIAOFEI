@@ -12,7 +12,7 @@ body {
   line-height: 1.5715;
 }
 
-html, body, h1, h2, h3, h4, h5, h6, div, dl, dt, dd, ul, ol, li, p, blockquote, pre, hr, figure, table, caption, th, td, form, fieldset, legend, input, button, textarea, menu {
+html, body,  div {
   margin: 0;
   padding: 0;
 }
@@ -160,7 +160,6 @@ p{
   .font-size-cont(@n, (@i + 2));
 }
 
-
 //修改默认滚动条样式
 ::-webkit-scrollbar {
   width: 5px;
@@ -185,8 +184,6 @@ p{
   background: #179a16;
 }
 
-
-
 // 设配移动端
 @media screen and (max-width: 768px) {
   .container{
@@ -209,7 +206,6 @@ p{
   .pc {
     display: none;
   }
-
 }
 @media screen and (min-width: 769px) {
   .mobile {

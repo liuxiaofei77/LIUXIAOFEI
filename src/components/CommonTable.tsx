@@ -39,13 +39,18 @@ export default defineComponent({
         }
         const htmls = (
           <div key={item.id || index} class={styles.card}>
-
             { props.columns.map(i => {
               return (
                 <div class={'flexBox pt5'}>
                   <div class={'fs15 cardLeft'}>{typeof i.title === 'string' ? `${i.title}:` : typeof i.title === 'function' ? i.title() : i.title}</div>
                   <div class={'ml10 fs15 cardRight'}>
-                    { i.customRender ? i.customRender({value: i.dataIndex ? item[i.dataIndex] : item, text: i.dataIndex ? item[i.dataIndex] : item, record: i.dataIndex ? item[i.dataIndex] : item, index: index}) : item[i.dataIndex] }
+                    { i.customRender ? i.customRender({
+                      value: i.dataIndex ? item[i.dataIndex] : item,
+                      text: i.dataIndex ? item[i.dataIndex] : item,
+                      record: i.dataIndex ? item[i.dataIndex] : item,
+                      index: index
+                    }) : item[i.dataIndex]
+                    }
                   </div>
                 </div>
               )

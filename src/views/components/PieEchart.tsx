@@ -1,5 +1,5 @@
 /*
- * @Author: djw
+ * @Author: lxf
  * @Description: 饼状图
  */
 import { defineComponent, onMounted } from 'vue'

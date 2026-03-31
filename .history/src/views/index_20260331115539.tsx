@@ -128,7 +128,137 @@ export default defineComponent({
         }
       },
     ])
+    // 处理弹窗显示
+    /*
     
+    // 处理弹窗
+    const legacySetModelFn = (type: string, flag = false, data={}) => {
+      otherData[type] = false
+      otherData.curItem = data
+      if (flag) {
+        //更新
+        if (type === 'showEdit'){
+          otherData.showPie=false
+          const arr = tabList.value[curTab.value - 1].list
+          const targetIndex = arr.findIndex(item => item.id === data.id)
+          if (targetIndex !== -1) {
+            tabList.value[curTab.value - 1].list[targetIndex] = {...data}
+          } else {
+            tabList.value[curTab.value - 1].list.push({...data})
+          }
+          localStorage.setItem('tabList', JSON.stringify(tabList.value))
+          setTimeout(()=>{
+            otherData.showPie=true
+          }, 1000)
+        }else if(type === 'showTab'){
+          const targetIndex = tabList.value.findIndex(item => item.title === data.title)
+          if (targetIndex !== -1) {
+            message.error('已有相同名字的任务分类表')
+          }else{
+            otherData.showPie=false
+            tabList.value.push({title: data.title, list:[]})
+            localStorage.setItem('tabList', JSON.stringify(tabList.value))
+            setTimeout(()=>{
+              otherData.showPie=true
+            }, 1000)
+          }
+        }
+      }
+    }
+    const legacyRangePickerChange = (e:any)=>{
+      if (!e) {
+        searchDate.value.taskTime = []
+      }
+    }
+    const legacyGetListHand = () => {
+      // 1. 解构赋值+语义化命名，减少重复访问，提升可读性
+      const { name: searchName, taskTime: searchTaskTime } = searchDate.value
+      // 2. 空值保护：避免curTab越界、list不存在导致报错，兜底空数组
+      const currentTabList = tabList.value[curTab.value - 1]?.list || []
+      let targetList = []
+      // 3. 提取搜索条件，简化后续判断（提前处理模糊搜索和时间数组有效性）
+      const hasName = !!searchName?.trim() // 排除空字符串、全空格的无效名称
+      const hasValidTaskTime = Array.isArray(searchTaskTime) && searchTaskTime.length === 2
+      // 4. 整合过滤逻辑，避免多分支重复调用filter，逻辑更清晰
+      if (hasName || hasValidTaskTime) {
+        targetList = currentTabList.filter((item) => {
+          // 条件1：名称模糊匹配（无效名称时直接通过）
+          const nameMatch = !hasName || item.name?.includes(searchName.trim())
+          // 条件2：时间范围匹配（无效时间时直接通过）
+          const timeMatch = !hasValidTaskTime ? true : (item.startTime <= searchTaskTime[0] && item.endTime >= searchTaskTime[1])
+          // 组合条件：“且”逻辑（与你的原分支逻辑一致）
+          return nameMatch && timeMatch
+        })
+        otherData.showsearch = true
+      } else {
+        // 无有效搜索条件时的处理
+        otherData.showsearch = false
+      }
+      // 5. 统一赋值并返回结果，避免重复赋值
+      searchList.value = targetList
+      return targetList
+    }
+    const legacyOnEdit = (targetKey: string | MouseEvent, action: string) => {
+      // console.log(targetKey, action)
+      if(action==='remove'){
+          Modal.confirm(
+            {
+              title: '删除',
+              icon: <ExclamationCircleFilled />,
+              content: '是否确认删除整个任务表',
+              onOk: () => {
+                otherData.showPie=false
+                tabList.value.splice(targetKey-1, 1)
+                localStorage.setItem('tabList', JSON.stringify(tabList.value))
+                curTab.value=1
+                setTimeout(()=>{
+                  otherData.showPie=true
+                }, 1000)
+              },
+              onCancel() {},
+            }
+          )
+      }else{
+        handleReply({}, 'showTab')
+      }
+
+    }
+    const legacyDeleteComfirm = (data) => {
+      Modal.confirm(
+        {
+          title: '删除',
+          icon: <ExclamationCircleFilled />,
+          content: '是否确认删除这个任务',
+          onOk: () => {
+            const arr = tabList.value[curTab.value-1].list
+            const targetIndex = arr.findIndex(item => item.id === data.id)
+            if (targetIndex !== -1) {
+              tabList.value[curTab.value-1].list.splice(targetIndex, 1)
+            }
+            localStorage.setItem('tabList', JSON.stringify(tabList.value))
+          },
+          onCancel() {},
+        }
+      )
+    }
+    const legacyChangeStatus = (e, item) => {
+      const data = {
+        ...item,
+        status:e
+      }
+      setModelFn('showEdit', true, data)
+      return e ? message.success('恭喜你已完成任务') : message.error('未完成任务')
+    }
+    const legacyOnchange = (e) => {
+      otherData.showPie=false
+      curTab.value=e
+      setTimeout(()=>{
+        otherData.showPie=true
+      }, 1000)
+    }
+
+    */
+
     const handleReply = (value: any, type: string) => {
       const state = otherData as Record<string, any>
       otherData.curItem = value
@@ -167,10 +297,12 @@ export default defineComponent({
 
       if (type === 'showTab') {
         const targetIndex = tabList.value.findIndex((item) => item.title === data.title)
+
         if (targetIndex !== -1) {
           message.error('已有相同名字的任务分类表')
           return
         }
+
         otherData.showPie = false
         tabList.value.push({ title: data.title, list: [] })
         await persistTabList()
@@ -199,6 +331,7 @@ export default defineComponent({
             ? true
             : Number(item.startTime) <= Number(searchTaskTime[0]) &&
               Number(item.endTime) >= Number(searchTaskTime[1])
+
           return nameMatch && timeMatch
         })
 
